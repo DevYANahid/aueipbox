@@ -1,12 +1,11 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { Suspense } from "react";
 
 import SearchBar from "./search-bar";
 
@@ -18,10 +17,13 @@ const navLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
-export default function Navbar() {
+// Navbar Content
+function NavbarContent() {
   const pathname = usePathname();
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Active Link Checker
   const isActive = (href: string) => {
     if (href === "/") {
       return pathname === "/";
@@ -30,6 +32,7 @@ export default function Navbar() {
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
+  // Desktop Link Styling
   const linkClass = (href: string) =>
     `relative py-2 text-sm font-semibold transition duration-200 ${
       isActive(href)
@@ -37,16 +40,12 @@ export default function Navbar() {
         : "text-gray-300 hover:text-purple-400"
     }`;
 
+  // Close Mobile Menu
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
   };
 
   return (
-      <Suspense
-      fallback={
-        <div className="h-[76px] bg-[#090d20]" />
-      }
-    >
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#090d20]/95 backdrop-blur-xl">
 
       {/* Main Navbar */}
@@ -74,6 +73,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
+              aria-current={isActive(link.href) ? "page" : undefined}
               className={linkClass(link.href)}
             >
               {link.name}
@@ -94,11 +94,17 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
+          aria-label={
+            mobileMenuOpen ? "Close navigation" : "Open navigation"
+          }
           aria-expanded={mobileMenuOpen}
           className="flex items-center justify-center text-white transition hover:text-purple-400 lg:hidden"
         >
-          {mobileMenuOpen ? <X size={27} /> : <Menu size={27} />}
+          {mobileMenuOpen ? (
+            <X size={27} />
+          ) : (
+            <Menu size={27} />
+          )}
         </button>
       </div>
 
@@ -118,6 +124,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={closeMobileMenu}
+                aria-current={isActive(link.href) ? "page" : undefined}
                 className={`rounded-lg px-4 py-3 text-sm font-semibold transition ${
                   isActive(link.href)
                     ? "bg-purple-500/10 text-purple-400"
@@ -131,6 +138,18 @@ export default function Navbar() {
         </div>
       )}
     </header>
+  );
+}
+
+// Main Navbar with Suspense
+export default function Navbar() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-[76px] w-full bg-[#090d20]" />
+      }
+    >
+      <NavbarContent />
     </Suspense>
   );
 }
