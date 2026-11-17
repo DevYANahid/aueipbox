@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import { Suspense } from "react";
 
 import SearchBar from "./search-bar";
 
@@ -41,6 +42,11 @@ export default function Navbar() {
   };
 
   return (
+      <Suspense
+      fallback={
+        <div className="h-[76px] bg-[#090d20]" />
+      }
+    >
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#090d20]/95 backdrop-blur-xl">
 
       {/* Main Navbar */}
@@ -125,5 +131,6 @@ export default function Navbar() {
         </div>
       )}
     </header>
+    </Suspense>
   );
 }
