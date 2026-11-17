@@ -1,4 +1,5 @@
 
+import { Suspense } from "react";
 import Link from "next/link";
 import { Search, SlidersHorizontal } from "lucide-react";
 
@@ -17,7 +18,7 @@ type Props = {
   }>;
 };
 
-export default async function ProductsPage({ searchParams }: Props) {
+async function ProductsContent({ searchParams }: Props) {
   const params = await searchParams;
 
   const search = params.search?.trim() || "";
@@ -83,7 +84,6 @@ export default async function ProductsPage({ searchParams }: Props) {
             Discover premium IPTV boxes and subscriptions.
           </p>
 
-          {/* Breadcrumb */}
           <div className="mt-5 flex items-center gap-2 text-xs text-gray-500">
             <Link href="/" className="hover:text-purple-400">
               Home
@@ -116,7 +116,6 @@ export default async function ProductsPage({ searchParams }: Props) {
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:flex">
 
-            {/* Category */}
             <select
               name="category"
               defaultValue={category}
@@ -131,7 +130,6 @@ export default async function ProductsPage({ searchParams }: Props) {
               ))}
             </select>
 
-            {/* Sorting */}
             <select
               name="sort"
               defaultValue={sort}
@@ -167,7 +165,7 @@ export default async function ProductsPage({ searchParams }: Props) {
             </p>
           </div>
 
-          {(search || category) && (
+          {(search || category || sort !== "newest") && (
             <Link
               href="/products"
               className="text-sm font-semibold text-purple-400 hover:text-purple-300"
@@ -192,7 +190,6 @@ export default async function ProductsPage({ searchParams }: Props) {
           </div>
         ) : (
 
-          /* Empty State */
           <div className="flex min-h-[350px] flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-[#111832] px-5 text-center">
 
             <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-purple-500/10">
@@ -220,7 +217,20 @@ export default async function ProductsPage({ searchParams }: Props) {
         )}
 
       </section>
-
     </main>
+  );
+}
+
+export default function ProductsPage({ searchParams }: Props) {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#090d20] p-10 text-center text-white">
+          Loading products...
+        </div>
+      }
+    >
+      <ProductsContent searchParams={searchParams} />
+    </Suspense>
   );
 }

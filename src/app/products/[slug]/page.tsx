@@ -1,8 +1,7 @@
 
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Topbar from "../../components/layout/topbar";
-import Navbar from "../../components/layout/navbar";
 import {
   ChevronRight,
   MessageCircle,
@@ -24,7 +23,7 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export default async function ProductDetails({ params }: Props) {
+async function ProductDetailsContent({ params }: Props) {
   const { slug } = await params;
 
   const product = allProducts.find(
@@ -58,13 +57,10 @@ export default async function ProductDetails({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-white text-[#17233d]">
-
-      {/* Main Product Area */}
-      <section className="mx-auto max-w-[1600px] px-4 md:px-8 pt-5 md:pt-8">
-
+      <section className="mx-auto max-w-[1600px] px-4 pt-5 md:px-8 md:pt-8">
         <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-8">
 
-          {/* LEFT: Product Gallery */}
+          {/* Product Gallery */}
           <div className="w-full min-w-0">
             <ProductGallery
               images={images}
@@ -72,10 +68,8 @@ export default async function ProductDetails({ params }: Props) {
             />
           </div>
 
-          {/* RIGHT: Product Information */}
+          {/* Product Information */}
           <div className="min-w-0">
-
-            {/* Category */}
             <div className="mb-3 flex flex-wrap items-center gap-1 text-sm">
               <span className="text-gray-500">
                 Categories:
@@ -89,14 +83,12 @@ export default async function ProductDetails({ params }: Props) {
               </Link>
             </div>
 
-            {/* Product Name */}
             <h1 className="text-2xl font-semibold leading-snug text-[#17233d] md:text-3xl">
               {product.name}
             </h1>
 
             {/* Pricing */}
             <div className="mt-4 flex flex-wrap items-center gap-3">
-
               <span
                 dir="ltr"
                 className="text-3xl font-medium text-orange-500"
@@ -110,12 +102,10 @@ export default async function ProductDetails({ params }: Props) {
               >
                 {formatAED(product.regularPrice)}
               </span>
-
             </div>
 
-            {/* About Item */}
+            {/* Features */}
             <div className="mt-7">
-
               <h2 className="mb-3 text-lg font-semibold">
                 About this item
               </h2>
@@ -128,10 +118,9 @@ export default async function ProductDetails({ params }: Props) {
                   </li>
                 ))}
               </ul>
-
             </div>
 
-            {/* WhatsApp Button */}
+            {/* WhatsApp */}
             <div className="mt-7">
               <a
                 href={whatsappLink}
@@ -144,27 +133,19 @@ export default async function ProductDetails({ params }: Props) {
                 <ChevronRight size={18} />
               </a>
             </div>
-
           </div>
-
         </div>
 
-        {/* DESCRIPTION SECTION */}
-        <section className="mt-8 md:mt-10 overflow-hidden rounded-md border border-[#d1d5db]">
-
-          {/* Header */}
+        {/* Description */}
+        <section className="mt-8 overflow-hidden rounded-md border border-[#d1d5db] md:mt-10">
           <div className="bg-[#e5e7eb] px-4 py-3">
             <h2 className="text-lg font-medium text-red-600">
               Description
             </h2>
           </div>
 
-          {/* Content */}
           <div className="space-y-5 p-5 text-sm leading-7 text-[#34435d] md:p-6">
-
-            <p>
-              {description}
-            </p>
+            <p>{description}</p>
 
             <div>
               <h3 className="mb-2 font-semibold text-[#17233d]">
@@ -179,13 +160,23 @@ export default async function ProductDetails({ params }: Props) {
                 ))}
               </ul>
             </div>
-
           </div>
-
         </section>
-
       </section>
-
     </main>
+  );
+}
+
+export default function ProductDetails({ params }: Props) {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white p-10 text-center text-gray-500">
+          Loading product details...
+        </div>
+      }
+    >
+      <ProductDetailsContent params={params} />
+    </Suspense>
   );
 }
