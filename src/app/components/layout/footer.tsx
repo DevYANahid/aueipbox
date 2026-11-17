@@ -126,7 +126,7 @@ export default function Footer() {
       <div className="border-t border-[#d1d5db]">
         <div className="mx-auto max-w-[1440px] px-5 py-4 text-center">
           <p className="text-[11px] tracking-wide text-[#64748b]">
-            UAE IPTV BOX © {new Date().getFullYear()}. All right reserved
+            UAE IPTV BOX © 2026. All right reserved
           </p>
         </div>
       </div>
