@@ -11,7 +11,7 @@ import {
 
 const slides = [
   {
-    image: "/images/slider1.jpeg",
+    image: "/Images/slider1.jpeg",
     label: "NEXT LEVEL ENTERTAINMENT",
     title: "IPTV Box &",
     highlight: "Subscriptions",
@@ -19,7 +19,7 @@ const slides = [
       "Enjoy 25,000+ Live TV Channels, Movies, Series and More Worldwide.",
   },
   {
-    image: "/images/slider2.jpeg",
+    image: "/Images/slider2.jpeg",
     label: "PREMIUM STREAMING EXPERIENCE",
     title: "Entertainment",
     highlight: "Without Limits",
@@ -27,7 +27,7 @@ const slides = [
       "Discover premium entertainment and your favourite channels.",
   },
   {
-    image: "/images/slider1.jpeg",
+    image: "/Images/slider1.jpeg",
     label: "SMART ENTERTAINMENT",
     title: "Upgrade Your",
     highlight: "TV Experience",

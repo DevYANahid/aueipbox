@@ -46,7 +46,7 @@ export default function Footer() {
         <div>
           <Link href="/" className="inline-block">
             <Image
-              src="/images/logo.png"
+              src="/Images/logo.png"
               alt="UAE IPTV Box"
               width={210}
               height={75}
