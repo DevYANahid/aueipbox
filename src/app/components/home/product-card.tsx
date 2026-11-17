@@ -5,7 +5,7 @@ import { MessageCircle, ArrowUpRight } from "lucide-react";
 import type { Product } from "@/data/products";
 import { formatAED } from "../../../lib/formate-price";
 
-const WHATSAPP_NUMBER = "0971566323742";
+const WHATSAPP_NUMBER = "+971566323742";
 
 type Props = {
   product: Product;
