@@ -7,7 +7,7 @@ import {
   Mail,
 } from "lucide-react";
 
-const WHATSAPP_NUMBER = "971566323742";
+const WHATSAPP_NUMBER = "971971566323742";
 
 const footerGroups = [
   {
@@ -100,13 +100,13 @@ export default function Footer() {
             </div>
 
             <a
-              href="https://wa.me/971566323742"
+              href="https://wa.me/971971566323742"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 text-[12px] text-[#526078] transition hover:text-green-600"
             >
               <Phone size={15} className="shrink-0 text-[#718096]" />
-              0566323742
+              0971566323742
             </a>
 
             <a

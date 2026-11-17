@@ -93,7 +93,7 @@ export default function HeroSlider() {
             </p>
 
             <a
-              href="https://wa.me/971XXXXXXXXX"
+              href="https://wa.me/0971566323742"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-7 inline-flex items-center gap-3 rounded-full bg-green-500 px-7 py-3.5 font-bold text-white transition hover:bg-green-600"

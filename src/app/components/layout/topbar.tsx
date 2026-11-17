@@ -22,7 +22,7 @@ export default function Topbar() {
             24/7 Support
           </span>
           <a
-            href="https://wa.me/971XXXXXXXXX"
+            href="https://wa.me/0971566323742"
             className="flex items-center gap-2 text-green-400"
           >
             <MessageCircle size={15} />

@@ -16,7 +16,7 @@ import {
 import { formatAED } from "../../../lib/formate-price";
 import ProductGallery from "../../components/product/product-gallery";
 
-const WHATSAPP_NUMBER = "971XXXXXXXXX";
+const WHATSAPP_NUMBER = "0971566323742";
 
 const allProducts = [...newArrivals, ...trendingProducts];
 

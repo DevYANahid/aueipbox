@@ -16,7 +16,7 @@ export default function ContactPage() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
-  const whatsappNumber = "971566323742";
+  const whatsappNumber = "971971566323742";
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
