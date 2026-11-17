@@ -58,7 +58,7 @@ function NavbarContent() {
           onClick={closeMobileMenu}
         >
           <Image
-            src="/images/logo.png"
+            src="/Images/logo.png"
             alt="IPTV World Logo"
             width={180}
             height={55}
