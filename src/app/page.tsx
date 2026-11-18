@@ -1,8 +1,10 @@
 
-import Topbar from "./components/layout/topbar";
-import Navbar from "./components/layout/navbar";
+"use client";
+
+import { useState } from "react";
+
 import HeroSlider from "./components/home/hero-slider";
-import Footer from "./components/layout/footer";
+import TrendingSlider from "./components/home/trending-slider";
 import ProductSection from "./components/home/product-section";
 
 import {
@@ -16,6 +18,8 @@ import {
   Headphones,
   Gem,
 } from "lucide-react";
+
+import type { Product } from "@/data/products";
 
 const benefits = [
   {
@@ -40,14 +44,50 @@ const benefits = [
   },
 ];
 
+type CartItem = {
+  product: Product;
+  quantity: number;
+};
+
 export default function Home() {
+  const [, setCartItems] = useState<CartItem[]>([]);
+
+  const handleAddToCart = (product: Product) => {
+    if (product.stock <= 0) return;
+
+    setCartItems((previous) => {
+      const existing = previous.find(
+        (item) => item.product.id === product.id
+      );
+
+      if (existing) {
+        return previous.map((item) =>
+          item.product.id === product.id
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item
+        );
+      }
+
+      return [
+        ...previous,
+        {
+          product,
+          quantity: 1,
+        },
+      ];
+    });
+  };
+
   return (
     <main className="min-h-screen bg-[#080d20]">
 
-
+      {/* HERO SLIDER */}
       <HeroSlider />
 
-      {/* Benefits */}
+      {/* BENEFITS */}
       <section className="mx-auto max-w-[1440px] px-5 py-6">
         <div className="grid grid-cols-2 gap-4 rounded-2xl border border-purple-500/30 bg-gradient-to-r from-[#17183b] to-[#111a38] p-5 lg:grid-cols-4">
 
@@ -80,7 +120,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* New Arrivals */}
+      {/* NEW ARRIVALS */}
       <ProductSection
         title="New Arrivals"
         subtitle="Discover our latest IPTV boxes and subscriptions"
@@ -88,13 +128,26 @@ export default function Home() {
         viewAllLink="/products?type=new"
       />
 
-      {/* Trending Products */}
-      <ProductSection
-        title="Trending Products"
-        subtitle="Explore our most popular products"
-        products={trendingProducts}
-        viewAllLink="/products?type=trending"
-      />
+      {/* TRENDING PRODUCTS */}
+      <section className="mx-auto max-w-[1440px] px-4 py-10 sm:px-5">
+
+        <div className="mb-7">
+          <h2 className="text-2xl font-black text-white">
+            Trending Products
+          </h2>
+
+          <p className="mt-2 text-sm text-gray-400">
+            Explore our most popular IPTV products
+          </p>
+        </div>
+
+        <TrendingSlider
+          products={trendingProducts}
+          onAddToCart={handleAddToCart}
+        />
+
+      </section>
+
     </main>
   );
 }

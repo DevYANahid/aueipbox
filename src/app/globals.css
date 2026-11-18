@@ -1,8 +1,13 @@
+
 @import "tailwindcss";
 
+/* =====================================
+   GLOBAL THEME
+===================================== */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #080d20;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,15 +17,821 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =====================================
+   SCROLLBAR HIDE
+===================================== */
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* =====================================
+   TRENDING PRODUCTS - INFINITE SLIDER
+===================================== */
+
+.trending-slider {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  /* Responsive card sizing */
+  container-type: inline-size;
+}
+
+.trending-track {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.trending-content {
+  display: flex;
+  width: max-content;
+  flex-wrap: nowrap;
+  will-change: transform;
+}
+
+.trending-group {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  align-items: stretch;
+  gap: 16px;
+  padding-right: 16px;
+}
+
+.trending-card {
+  flex: 0 0 calc((100cqw - 48px) / 4);
+  width: calc((100cqw - 48px) / 4);
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+}
+
+.trending-card > * {
+  width: 100%;
+}
+
+/* =====================================
+   SLOW INFINITE ANIMATION
+===================================== */
+
+.trending-left {
+  animation: trending-slide-left 120s linear infinite;
+}
+
+.trending-right {
+  animation: trending-slide-right 120s linear infinite;
+}
+
+@keyframes trending-slide-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes trending-slide-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Pause on hover */
+.trending-track:hover .trending-content {
+  animation-play-state: paused;
+}
+
+/* =====================================
+   TABLET - 2 CARDS
+===================================== */
+
+@container (max-width: 900px) {
+  .trending-card {
+    flex-basis: calc((100cqw - 16px) / 2);
+    width: calc((100cqw - 16px) / 2);
+  }
+
+  .trending-left,
+  .trending-right {
+    animation-duration: 100s;
+  }
+}
+
+/* =====================================
+   MOBILE - 1.15 CARDS
+===================================== */
+
+@container (max-width: 550px) {
+  .trending-group {
+    gap: 12px;
+    padding-right: 12px;
+  }
+
+  .trending-card {
+    flex-basis: calc((100cqw - 12px) / 1.15);
+    width: calc((100cqw - 12px) / 1.15);
+  }
+
+  .trending-slider {
+    gap: 18px;
+  }
+
+  .trending-left,
+  .trending-right {
+    animation-duration: 85s;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .trending-content {
+    animation: none !important;
+  }
+}
+
+/* Second Row Animation */
+@keyframes trending-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* =====================================
+   TABLET
+===================================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .trending-card {
+    width: 250px;
+    flex-basis: 250px;
+  }
+}
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 768px) {
+  .trending-card {
+    width: 220px;
+    flex-basis: 220px;
+  }
+
+  .trending-group {
+    gap: 10px;
+    padding-right: 10px;
+  }
+
+  .trending-left,
+  .trending-right {
+    animation-duration: 28s;
+  }
+}
+
+/* =====================================
+   ACCESSIBILITY
+===================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .trending-content {
+    animation: none !important;
+  }
+}
+
+/* =========================================
+   HERO BANNER - FUTURISTIC VIDEO EFFECTS
+========================================= */
+
+.hero-banner {
+  isolation: isolate;
+  position: relative;
+}
+
+/* Background image slow zoom */
+
+.hero-image-wrapper {
+  overflow: hidden;
+  animation: hero-image-appear 1.2s ease both;
+}
+
+.hero-background-image {
+  object-position: center;
+  animation: hero-slow-zoom 12s ease-in-out infinite alternate;
+}
+
+@keyframes hero-image-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-slow-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+/* Dark overlay */
+
+.hero-dark-overlay {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 10, 35, 0.97) 0%,
+      rgba(10, 15, 55, 0.82) 42%,
+      rgba(10, 15, 55, 0.25) 100%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(5, 10, 35, 0.5),
+      transparent 50%
+    );
+
+  z-index: 1;
+}
+
+/* Animated gradient */
+
+.hero-animated-gradient {
+  z-index: 2;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 75% 45%,
+      rgba(124, 58, 237, 0.28),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 15% 80%,
+      rgba(0, 140, 255, 0.2),
+      transparent 35%
+    );
+
+  animation: hero-gradient-pulse 7s ease-in-out infinite alternate;
+}
+
+@keyframes hero-gradient-pulse {
+  from {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+/* Light sweep */
+
+.hero-light-sweep {
+  position: absolute;
+  z-index: 4;
+  top: -100%;
+  left: -50%;
+  width: 35%;
+  height: 300%;
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(168, 85, 247, 0.08),
+    rgba(255, 255, 255, 0.13),
+    rgba(56, 189, 248, 0.08),
+    transparent
+  );
+
+  transform: rotate(25deg);
+  animation: hero-light-move 9s ease-in-out infinite;
+}
+
+@keyframes hero-light-move {
+  0%, 20% {
+    left: -50%;
+    opacity: 0;
+  }
+
+  35% {
+    opacity: 1;
+  }
+
+  75% {
+    left: 120%;
+    opacity: 0.8;
+  }
+
+  100% {
+    left: 120%;
+    opacity: 0;
+  }
+}
+
+/* =========================================
+   ORBIT RINGS
+========================================= */
+
+.hero-orbit {
+  position: absolute;
+  z-index: 3;
+  width: 230px;
+  height: 230px;
+  right: 12%;
+  top: 50%;
+  border: 1px solid rgba(147, 197, 253, 0.24);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+
+  box-shadow:
+    0 0 20px rgba(124, 58, 237, 0.12),
+    inset 0 0 20px rgba(59, 130, 246, 0.08);
+
+  animation: hero-orbit-pulse 5s ease-in-out infinite;
+}
+
+.hero-orbit::before,
+.hero-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid rgba(96, 165, 250, 0.22);
+  border-radius: 50%;
+}
+
+.hero-orbit::after {
+  inset: 38px;
+  border-color: rgba(192, 132, 252, 0.3);
+}
+
+.hero-orbit span {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  top: 22%;
+  left: 18%;
+  border-radius: 50%;
+  background: #67e8f9;
+  box-shadow: 0 0 15px #22d3ee;
+}
+
+.hero-orbit-two {
+  width: 310px;
+  height: 310px;
+  right: 9%;
+  animation-delay: 1s;
+}
+
+.hero-orbit-three {
+  width: 390px;
+  height: 390px;
+  right: 6%;
+  animation-delay: 2s;
+}
+
+@keyframes hero-orbit-pulse {
+  0%, 100% {
+    opacity: 0.45;
+    scale: 0.96;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1.04;
+  }
+}
+
+/* =========================================
+   FLOATING PARTICLES
+========================================= */
+
+.hero-particles {
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-particles i {
+  position: absolute;
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+
+  background: #a5f3fc;
+  box-shadow:
+    0 0 8px #22d3ee,
+    0 0 15px rgba(59, 130, 246, 0.8);
+
+  animation: hero-particle-float 7s ease-in-out infinite;
+}
+
+.hero-particles i:nth-child(1) {
+  left: 12%;
+  top: 20%;
+}
+
+.hero-particles i:nth-child(2) {
+  left: 30%;
+  top: 70%;
+  animation-delay: 1s;
+}
+
+.hero-particles i:nth-child(3) {
+  left: 45%;
+  top: 18%;
+  animation-delay: 2s;
+}
+
+.hero-particles i:nth-child(4) {
+  left: 65%;
+  top: 30%;
+  animation-delay: 3s;
+}
+
+.hero-particles i:nth-child(5) {
+  left: 80%;
+  top: 75%;
+  animation-delay: 1.5s;
+}
+
+.hero-particles i:nth-child(6) {
+  left: 90%;
+  top: 25%;
+  animation-delay: 2.5s;
+}
+
+.hero-particles i:nth-child(7) {
+  left: 20%;
+  top: 85%;
+  animation-delay: 3.5s;
+}
+
+.hero-particles i:nth-child(8) {
+  left: 52%;
+  top: 50%;
+  animation-delay: 4s;
+}
+
+.hero-particles i:nth-child(9) {
+  left: 73%;
+  top: 12%;
+  animation-delay: 1.8s;
+}
+
+.hero-particles i:nth-child(10) {
+  left: 37%;
+  top: 35%;
+  animation-delay: 2.8s;
+}
+
+.hero-particles i:nth-child(11) {
+  left: 8%;
+  top: 60%;
+  animation-delay: 3.8s;
+}
+
+.hero-particles i:nth-child(12) {
+  left: 88%;
+  top: 55%;
+  animation-delay: 4.5s;
+}
+
+@keyframes hero-particle-float {
+  0%, 100% {
+    transform: translateY(0) scale(0.7);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: translateY(-35px) scale(1.5);
+    opacity: 1;
+  }
+}
+
+/* =========================================
+   EQUALIZER / SOUND WAVE
+========================================= */
+
+.hero-equalizer {
+  position: absolute;
+  z-index: 6;
+  right: 8%;
+  top: 50%;
+  transform: translateY(-50%);
+
+  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+
+  opacity: 0.7;
+}
+
+.hero-equalizer span {
+  display: block;
+  width: 3px;
+  min-height: 8px;
+  max-height: 70px;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    to top,
+    #2563eb,
+    #a855f7,
+    #67e8f9
+  );
+
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.8);
+
+  animation: hero-equalizer-wave 1.1s ease-in-out infinite alternate;
+}
+
+@keyframes hero-equalizer-wave {
+  from {
+    transform: scaleY(0.25);
+    opacity: 0.5;
+  }
+
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* =========================================
+   TEXT ENTRANCE
+========================================= */
+
+.hero-content > div {
+  animation: hero-text-enter 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.hero-label {
+  animation: hero-label-enter 0.8s ease both;
+}
+
+.hero-heading {
+  animation: hero-heading-enter 1s ease both;
+}
+
+.hero-highlight {
+  background-size: 200% auto;
+  animation:
+    hero-heading-enter 1s ease both,
+    hero-text-gradient 5s linear infinite;
+}
+
+.hero-description {
+  animation: hero-description-enter 1.1s ease both;
+}
+
+.hero-cta {
+  animation: hero-description-enter 1.3s ease both;
+}
+
+@keyframes hero-text-enter {
+  from {
+    opacity: 0;
+    transform: translateX(-35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hero-label-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-heading-enter {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-description-enter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-text-gradient {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* =========================================
+   FLOATING PLAY BUTTON
+========================================= */
+
+.hero-floating-play {
+  position: absolute;
+  z-index: 7;
+  right: 22%;
+  top: 50%;
+  width: 75px;
+  height: 75px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(192, 132, 252, 0.6);
+  border-radius: 22px;
+
+  background: rgba(30, 41, 100, 0.35);
+  backdrop-filter: blur(8px);
+
+  box-shadow:
+    0 0 25px rgba(168, 85, 247, 0.35),
+    inset 0 0 15px rgba(59, 130, 246, 0.2);
+
+  color: #c4b5fd;
+  pointer-events: none;
+
+  animation: hero-play-float 4s ease-in-out infinite;
+}
+
+.hero-play-inner {
+  animation: hero-play-pulse 2s ease-in-out infinite;
+}
+
+@keyframes hero-play-float {
+  0%, 100% {
+    transform: translateY(-50%) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateY(calc(-50% - 15px)) rotate(5deg);
+  }
+}
+
+@keyframes hero-play-pulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px #a855f7);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 15px #38bdf8);
+  }
+}
+
+/* =========================================
+   BOTTOM NEON LINE
+========================================= */
+
+.hero-bottom-line {
+  position: absolute;
+  z-index: 20;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #8b5cf6,
+    #22d3ee,
+    #a855f7,
+    transparent
+  );
+
+  background-size: 200% 100%;
+  animation: hero-neon-line 4s linear infinite;
+}
+
+@keyframes hero-neon-line {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+  .hero-banner {
+    border-radius: 20px;
+  }
+
+  .hero-dark-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(5, 10, 35, 0.95),
+      rgba(10, 15, 55, 0.72)
+    );
+  }
+
+  .hero-orbit {
+    right: -25%;
+    opacity: 0.4;
+  }
+
+  .hero-orbit-two {
+    right: -32%;
+  }
+
+  .hero-orbit-three {
+    right: -40%;
+  }
+
+  .hero-equalizer {
+    right: 5%;
+    opacity: 0.35;
+    scale: 0.7;
+  }
+
+  .hero-floating-play {
+    right: 12%;
+    top: 75%;
+    width: 55px;
+    height: 55px;
+    opacity: 0.6;
+  }
+
+  .hero-arrow {
+    padding: 9px;
+  }
+
+  .hero-particles i {
+    width: 3px;
+    height: 3px;
+  }
+}
+
+/* Reduce motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-banner *,
+  .hero-banner *::before,
+  .hero-banner *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }

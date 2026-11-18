@@ -24,7 +24,7 @@ const allProducts: Product[] = [
     regularPrice: 280,
     salePrice: 250,
     sold: 0,
-    stock: 0,
+    stock: 110,
     badge: "HOT",
     category: "UAE IPTV Subscription",
   },
@@ -36,7 +36,7 @@ const allProducts: Product[] = [
     regularPrice: 150,
     salePrice: 120,
     sold: 0,
-    stock: 0,
+    stock: 110,
     badge: "HOT",
     category: "UAE IPTV Subscription",
   },
@@ -48,7 +48,7 @@ const allProducts: Product[] = [
     regularPrice: 180,
     salePrice: 130,
     sold: 0,
-    stock: 0,
+    stock: 110,
     badge: "HOT",
     category: "UAE IPTV Subscription",
   },
@@ -60,7 +60,7 @@ const allProducts: Product[] = [
     regularPrice: 280,
     salePrice: 250,
     sold: 0,
-    stock: 0,
+    stock: 110,
     badge: "HOT",
     category: "UAE IPTV Subscription",
   },
@@ -72,7 +72,7 @@ const allProducts: Product[] = [
     regularPrice: 120,
     salePrice: 90,
     sold: 0,
-    stock: 0,
+    stock: 110,
     badge: "HOT",
     category: "UAE IPTV Subscription",
   },
@@ -84,7 +84,7 @@ const allProducts: Product[] = [
     regularPrice: 280,
     salePrice: 250,
     sold: 0,
-    stock: 0,
+    stock: 110,
     badge: "HOT",
     category: "UAE IPTV Subscription",
   },
@@ -96,7 +96,7 @@ const allProducts: Product[] = [
     regularPrice: 150,
     salePrice: 110,
     sold: 0,
-    stock: 0,
+    stock: 110,
     badge: "HOT",
     category: "UAE IPTV Subscription",
   },
@@ -270,6 +270,6 @@ const allProducts: Product[] = [
   },
 ];
 
-export const newArrivals = allProducts.slice(0, 4);
+export const newArrivals = allProducts.slice(0, 9);
 
 export const trendingProducts = allProducts.slice(4);
