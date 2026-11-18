@@ -11,7 +11,7 @@ import {
   Flame,
   ArrowUpRight,
 } from "lucide-react";
-import React, { useMemo } from "react";
+import React from "react";
 
 import type { Product } from "@/data/products";
 import { formatAED } from "../../../lib/formate-price";
@@ -36,10 +36,8 @@ export default function ProductCard({
   const isFeatured = variant === "featured";
 
   const total = product.sold + product.stock;
-  const reviewCount = useMemo(
-  () => 100 + Math.floor(Math.random() * 400),
-  []
-);
+ const reviewCount =
+  100 + (Math.abs(Number(product.id) || 0) * 73) % 400;
 
 
 
