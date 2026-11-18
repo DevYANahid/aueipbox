@@ -5,9 +5,10 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingCart } from "lucide-react";
 
 import SearchBar from "./search-bar";
+import { useCart } from "@/app/context/cart-context";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -22,6 +23,9 @@ function NavbarContent() {
   const pathname = usePathname();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Shared Cart
+  const { cartCount } = useCart();
 
   // Active Link Checker
   const isActive = (href: string) => {
@@ -90,22 +94,49 @@ function NavbarContent() {
           <SearchBar />
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          type="button"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label={
-            mobileMenuOpen ? "Close navigation" : "Open navigation"
-          }
-          aria-expanded={mobileMenuOpen}
-          className="flex items-center justify-center text-white transition hover:text-purple-400 lg:hidden"
-        >
-          {mobileMenuOpen ? (
-            <X size={27} />
-          ) : (
-            <Menu size={27} />
-          )}
-        </button>
+        {/* Cart + Mobile Menu */}
+        <div className="flex shrink-0 items-center gap-4">
+
+          {/* CART ICON */}
+          <Link
+            href="/cart"
+            aria-label={`Shopping cart, ${cartCount} items`}
+            className={`group relative flex h-11 w-11 items-center justify-center rounded-full border transition-all duration-300 ${
+              pathname === "/cart"
+                ? "border-purple-400 bg-purple-500/20 text-purple-300"
+                : "border-white/10 bg-white/5 text-gray-200 hover:border-purple-400 hover:bg-purple-500/10 hover:text-purple-300"
+            }`}
+          >
+            <ShoppingCart
+              size={21}
+              className="transition-transform duration-300 group-hover:scale-110"
+            />
+
+            {/* DYNAMIC CART BADGE */}
+            {cartCount > 0 && (
+              <span className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full border-2 border-[#090d20] bg-gradient-to-r from-fuchsia-500 to-purple-600 px-1 text-[10px] font-black text-white shadow-[0_0_10px_rgba(217,70,239,0.6)]">
+                {cartCount > 99 ? "99+" : cartCount}
+              </span>
+            )}
+          </Link>
+
+          {/* Mobile Menu Button */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={
+              mobileMenuOpen ? "Close navigation" : "Open navigation"
+            }
+            aria-expanded={mobileMenuOpen}
+            className="flex items-center justify-center text-white transition hover:text-purple-400 lg:hidden"
+          >
+            {mobileMenuOpen ? (
+              <X size={27} />
+            ) : (
+              <Menu size={27} />
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -135,6 +166,22 @@ function NavbarContent() {
               </Link>
             ))}
           </nav>
+
+          {/* Mobile Cart Link */}
+          <Link
+            href="/cart"
+            onClick={closeMobileMenu}
+            className="mt-3 flex items-center justify-between rounded-lg border border-purple-500/20 bg-purple-500/10 px-4 py-3 text-sm font-bold text-purple-300"
+          >
+            <span className="flex items-center gap-3">
+              <ShoppingCart size={19} />
+              Shopping Cart
+            </span>
+
+            <span className="rounded-full bg-purple-600 px-2.5 py-1 text-xs font-black text-white">
+              {cartCount}
+            </span>
+          </Link>
         </div>
       )}
     </header>
