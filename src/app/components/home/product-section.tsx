@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+
 import {
   ArrowRight,
   ShoppingCart,
@@ -13,6 +14,7 @@ import {
 
 import ProductCard from "./product-card";
 import type { Product } from "@/data/products";
+import { useCart } from "@/app/context/cart-context";
 
 type Props = {
   title: string;
@@ -21,38 +23,22 @@ type Props = {
   viewAllLink: string;
 };
 
-type CartItem = {
-  product: Product;
-  quantity: number;
-};
-
 export default function ProductSection({
   title,
   subtitle,
   products,
   viewAllLink,
 }: Props) {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  // Shared Cart Context
+  const { addToCart, cartCount } = useCart();
+
   const [added, setAdded] = useState<number | null>(null);
 
+  // Add Product to Shared Cart
   const handleAddToCart = (product: Product) => {
     if (product.stock <= 0) return;
 
-    setCartItems((previous) => {
-      const existing = previous.find(
-        (item) => item.product.id === product.id
-      );
-
-      if (existing) {
-        return previous.map((item) =>
-          item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-
-      return [...previous, { product, quantity: 1 }];
-    });
+    addToCart(product);
 
     setAdded(product.id);
 
@@ -62,11 +48,6 @@ export default function ProductSection({
       );
     }, 1500);
   };
-
-  const cartCount = cartItems.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
 
   // Featured products
   const featuredProducts = products.slice(0, 6);
@@ -108,31 +89,41 @@ export default function ProductSection({
           <div className="hidden h-10 w-[2px] bg-purple-500 sm:block" />
 
           <div className="hidden sm:block">
+
             <div className="flex items-center gap-2">
+
               <Crown size={23} className="text-fuchsia-500" />
 
               <h3 className="text-xl font-extrabold text-white">
                 {title}
               </h3>
+
             </div>
 
             <p className="mt-1 text-xs text-gray-400">
               {subtitle}
             </p>
+
           </div>
 
         </div>
 
         <div className="flex items-center gap-3">
 
-          {/* Cart */}
-          <div className="flex items-center gap-2 rounded-full border border-purple-500/50 bg-[#160c30] px-4 py-2.5 text-white shadow-[0_0_15px_rgba(168,85,247,0.25)]">
-            <ShoppingCart size={19} className="text-fuchsia-400" />
+          {/* Shared Cart Count */}
+          <Link
+            href="/cart"
+            className="flex items-center gap-2 rounded-full border border-purple-500/50 bg-[#160c30] px-4 py-2.5 text-white shadow-[0_0_15px_rgba(168,85,247,0.25)] transition hover:border-fuchsia-400 hover:bg-purple-900"
+          >
+            <ShoppingCart
+              size={19}
+              className="text-fuchsia-400"
+            />
 
             <span className="text-sm font-bold">
               {cartCount}
             </span>
-          </div>
+          </Link>
 
           {/* View All */}
           <Link
@@ -149,19 +140,32 @@ export default function ProductSection({
 
       {/* Mobile Subtitle */}
       <div className="mb-5 sm:hidden">
+
         <h3 className="text-lg font-extrabold text-white">
           {title}
         </h3>
+
         <p className="mt-1 text-xs text-gray-400">
           {subtitle}
         </p>
+
       </div>
 
       {/* Added Message */}
       {added !== null && (
         <div className="mb-5 flex items-center gap-2 rounded-xl border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm font-semibold text-green-400">
+
           <Check size={18} />
+
           Product added to cart successfully!
+
+          <Link
+            href="/cart"
+            className="ml-auto font-bold underline underline-offset-4 hover:text-green-300"
+          >
+            View Cart
+          </Link>
+
         </div>
       )}
 
@@ -172,9 +176,7 @@ export default function ProductSection({
           {featuredProducts.map((product, index) => (
             <div
               key={product.id}
-              className={`min-w-0 ${
-                positions[index]
-              }`}
+              className={`min-w-0 ${positions[index]}`}
             >
               <ProductCard
                 product={product}
@@ -197,7 +199,10 @@ export default function ProductSection({
 
           <div className="mb-6 flex items-center gap-3">
 
-            <Flame size={23} className="text-orange-400" />
+            <Flame
+              size={23}
+              className="text-orange-400"
+            />
 
             <h3 className="text-xl font-extrabold text-white">
               More Products

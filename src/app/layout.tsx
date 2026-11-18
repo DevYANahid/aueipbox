@@ -1,11 +1,12 @@
 
 import type { Metadata } from "next";
-
 import "./globals.css";
 
 import Topbar from "./components/layout/topbar";
 import Navbar from "./components/layout/navbar";
 import Footer from "./components/layout/footer";
+
+import { CartProvider } from "./context/cart-context";
 
 export const metadata: Metadata = {
   title: "UAE IPTV Box | Premium IPTV Solutions",
@@ -21,14 +22,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen">
-
-        <Topbar />
-        <Navbar />
-
-        {children}
-
-        <Footer />
-
+        <CartProvider>
+          <Topbar />
+          <Navbar />
+          {children}
+          <Footer />
+        </CartProvider>
       </body>
     </html>
   );

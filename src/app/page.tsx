@@ -1,8 +1,6 @@
 
 "use client";
 
-import { useState } from "react";
-
 import HeroSlider from "./components/home/hero-slider";
 import TrendingSlider from "./components/home/trending-slider";
 import ProductSection from "./components/home/product-section";
@@ -19,7 +17,7 @@ import {
   Gem,
 } from "lucide-react";
 
-import type { Product } from "@/data/products";
+import { useCart } from "@/app/context/cart-context";
 
 const benefits = [
   {
@@ -44,42 +42,8 @@ const benefits = [
   },
 ];
 
-type CartItem = {
-  product: Product;
-  quantity: number;
-};
-
 export default function Home() {
-  const [, setCartItems] = useState<CartItem[]>([]);
-
-  const handleAddToCart = (product: Product) => {
-    if (product.stock <= 0) return;
-
-    setCartItems((previous) => {
-      const existing = previous.find(
-        (item) => item.product.id === product.id
-      );
-
-      if (existing) {
-        return previous.map((item) =>
-          item.product.id === product.id
-            ? {
-                ...item,
-                quantity: item.quantity + 1,
-              }
-            : item
-        );
-      }
-
-      return [
-        ...previous,
-        {
-          product,
-          quantity: 1,
-        },
-      ];
-    });
-  };
+  const { addToCart } = useCart();
 
   return (
     <main className="min-h-screen bg-[#080d20]">
@@ -143,7 +107,7 @@ export default function Home() {
 
         <TrendingSlider
           products={trendingProducts}
-          onAddToCart={handleAddToCart}
+          onAddToCart={addToCart}
         />
 
       </section>

@@ -8,7 +8,7 @@ import {
   trendingProducts,
 } from "@/data/products";
 
-import ProductCard from "../components/home/product-card";
+import ProductsGrid from "../components/product/products-grid";
 
 type Props = {
   searchParams: Promise<{
@@ -177,45 +177,34 @@ async function ProductsContent({ searchParams }: Props) {
         </div>
 
         {/* Product Grid */}
-        {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+       {/* Product Grid */}
+{filteredProducts.length > 0 ? (
+  <ProductsGrid products={filteredProducts} />
+) : (
+  <div className="flex min-h-[350px] flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-[#111832] px-5 text-center">
 
-            {filteredProducts.map((product) => (
-              <ProductCard
-                key={product.slug}
-                product={product}
-              />
-            ))}
+    <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-purple-500/10">
+      <Search size={30} className="text-purple-400" />
+    </div>
 
-          </div>
-        ) : (
+    <h3 className="text-xl font-bold">
+      No Products Found
+    </h3>
 
-          <div className="flex min-h-[350px] flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-[#111832] px-5 text-center">
+    <p className="mt-2 max-w-sm text-sm text-gray-400">
+      We couldn't find any products matching your search.
+      Try another keyword or category.
+    </p>
 
-            <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-purple-500/10">
-              <Search size={30} className="text-purple-400" />
-            </div>
+    <Link
+      href="/products"
+      className="mt-6 rounded-full bg-purple-600 px-6 py-3 text-sm font-bold hover:bg-purple-700"
+    >
+      View All Products
+    </Link>
 
-            <h3 className="text-xl font-bold">
-              No Products Found
-            </h3>
-
-            <p className="mt-2 max-w-sm text-sm text-gray-400">
-              We couldn't find any products matching your search.
-              Try another keyword or category.
-            </p>
-
-            <Link
-              href="/products"
-              className="mt-6 rounded-full bg-purple-600 px-6 py-3 text-sm font-bold hover:bg-purple-700"
-            >
-              View All Products
-            </Link>
-
-          </div>
-
-        )}
-
+  </div>
+)}
       </section>
     </main>
   );
