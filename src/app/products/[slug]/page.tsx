@@ -1,4 +1,5 @@
 
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
 import {
@@ -14,7 +15,7 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export default async function ProductDetails({ params }: Props) {
+async function ProductDetailsContent({ params }: Props) {
   const { slug } = await params;
 
   const product = allProducts.find(
@@ -47,5 +48,19 @@ export default async function ProductDetails({ params }: Props) {
       images={images}
       relatedProducts={relatedProducts}
     />
+  );
+}
+
+export default function ProductDetails({ params }: Props) {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#f5f6f8] p-10 text-center text-gray-500">
+          Loading product details...
+        </div>
+      }
+    >
+      <ProductDetailsContent params={params} />
+    </Suspense>
   );
 }
